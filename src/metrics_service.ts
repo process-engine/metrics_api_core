@@ -25,23 +25,23 @@ export class MetricsService implements IMetricsService {
     await this.loggingRepository.writeLogForProcessModel(processModeldId, correlationId, LogLevel.info, 'Process Error');
   }
 
-  public async writeOnEnter(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
+  public async writeOnFlowNodeInstanceEnter(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
     await this.loggingRepository.writeLogForFlowNodeInstance(processModeldId, correlationId, flowNodeInstanceId, LogLevel.info, 'FNI Entered');
   }
 
-  public async writeOnExit(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
+  public async writeOnFlowNodeInstanceExit(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
     await this.loggingRepository.writeLogForFlowNodeInstance(processModeldId, correlationId, flowNodeInstanceId, LogLevel.info, 'FNI Exited');
   }
 
-  public async writeOnError(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
+  public async writeOnFlowNodeInstanceError(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
     await this.loggingRepository.writeLogForFlowNodeInstance(processModeldId, correlationId, flowNodeInstanceId, LogLevel.info, 'FNI Error');
   }
 
-  public async writeOnSuspend(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
+  public async writeOnFlowNodeInstanceSuspend(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
     await this.loggingRepository.writeLogForFlowNodeInstance(processModeldId, correlationId, flowNodeInstanceId, LogLevel.info, 'FNI Suspended');
   }
 
-  public async writeOnResume(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
+  public async writeOnFlowNodeInstanceResume(processModeldId: string, correlationId: string, flowNodeInstanceId: string): Promise<void> {
     await this.loggingRepository.writeLogForFlowNodeInstance(processModeldId, correlationId, flowNodeInstanceId, LogLevel.info, 'FNI Resumed');
   }
 }
