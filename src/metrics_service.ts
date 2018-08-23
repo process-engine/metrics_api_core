@@ -1,5 +1,5 @@
 import {ILoggingRepository, LogLevel} from '@process-engine/logging_api_contracts';
-import {IMetricsService} from '@process-engine/metrics_api_contracts';
+import {IMetricsService, ProcessToken} from '@process-engine/metrics_api_contracts';
 
 export class MetricsService implements IMetricsService {
 
@@ -29,6 +29,7 @@ export class MetricsService implements IMetricsService {
                                             processModelId: string,
                                             flowNodeInstanceId: string,
                                             flowNodeId: string,
+                                            processToken: ProcessToken,
                                             timestamp: Date): Promise<void> {
     await this
       .loggingRepository
@@ -39,6 +40,7 @@ export class MetricsService implements IMetricsService {
                                            processModelId: string,
                                            flowNodeInstanceId: string,
                                            flowNodeId: string,
+                                           processToken: ProcessToken,
                                            timestamp: Date): Promise<void> {
     await this
       .loggingRepository
@@ -49,6 +51,7 @@ export class MetricsService implements IMetricsService {
                                             processModelId: string,
                                             flowNodeInstanceId: string,
                                             flowNodeId: string,
+                                            processToken: ProcessToken,
                                             timestamp: Date): Promise<void> {
     await this
       .loggingRepository
@@ -59,6 +62,7 @@ export class MetricsService implements IMetricsService {
                                               processModelId: string,
                                               flowNodeInstanceId: string,
                                               flowNodeId: string,
+                                              processToken: ProcessToken,
                                               timestamp: Date): Promise<void> {
     await this
       .loggingRepository
@@ -69,6 +73,7 @@ export class MetricsService implements IMetricsService {
                                              processModelId: string,
                                              flowNodeInstanceId: string,
                                              flowNodeId: string,
+                                             processToken: ProcessToken,
                                              timestamp: Date): Promise<void> {
     await this
       .loggingRepository
