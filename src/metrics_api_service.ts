@@ -1,7 +1,7 @@
 import {ILoggingRepository, LogLevel} from '@process-engine/logging_api_contracts';
 import {IMetricsService, ProcessToken} from '@process-engine/metrics_api_contracts';
 
-export class MetricsService implements IMetricsService {
+export class MetricsApiService implements IMetricsService {
 
   private _loggingRepository: ILoggingRepository;
 
