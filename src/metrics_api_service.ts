@@ -1,29 +1,27 @@
-import {ILoggingRepository, LogLevel} from '@process-engine/logging_api_contracts';
-import {IMetricsService, ProcessToken} from '@process-engine/metrics_api_contracts';
+import {IMetricsApi, IMetricsRepository, MetricMeasurementPoint, ProcessToken} from '@process-engine/metrics_api_contracts';
 
-export class MetricsApiService implements IMetricsService {
+export class MetricsApiService implements IMetricsApi {
 
-  private _loggingRepository: ILoggingRepository;
+  private _metricsRepository: IMetricsRepository;
 
-  constructor(loggingRepository: ILoggingRepository) {
-    this._loggingRepository = loggingRepository;
+  constructor(metricsRepository: IMetricsRepository) {
+    this._metricsRepository = metricsRepository;
   }
 
-  private get loggingRepository(): ILoggingRepository {
-    return this._loggingRepository;
+  private get metricsRepository(): IMetricsRepository {
+    return this._metricsRepository;
   }
 
   public async writeOnProcessStarted(correlationId: string, processModelId: string, timestamp: Date): Promise<void> {
-    await this.loggingRepository.writeLogForProcessModel(correlationId, processModelId, LogLevel.info, 'Process started', timestamp);
+    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessStart, timestamp);
   }
 
   public async writeOnProcessFinished(correlationId: string, processModelId: string, timestamp: Date): Promise<void> {
-    await this.loggingRepository.writeLogForProcessModel(correlationId, processModelId, LogLevel.info, 'Process finished', timestamp);
+    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessFinish, timestamp);
   }
 
   public async writeOnProcessError(correlationId: string, processModelId: string, error: Error, timestamp: Date): Promise<void> {
-    const logMessage: string = `Process Error;Error=${error}`;
-    await this.loggingRepository.writeLogForProcessModel(correlationId, processModelId, LogLevel.info, logMessage, timestamp);
+    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessError, timestamp, error);
   }
 
   public async writeOnFlowNodeInstanceEnter(correlationId: string,
@@ -33,11 +31,13 @@ export class MetricsApiService implements IMetricsService {
                                             processToken: ProcessToken,
                                             timestamp: Date): Promise<void> {
 
-    const logMessage: string = this._createFlowNodeInstanceLogMessage('FNI Entered', processToken);
-
-    await this
-      .loggingRepository
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeInstanceId, flowNodeId, LogLevel.info, logMessage, timestamp);
+    await this.metricsRepository.writeMetricForFlowNode(correlationId,
+                                                        processModelId,
+                                                        flowNodeInstanceId,
+                                                        flowNodeId,
+                                                        MetricMeasurementPoint.onFlowNodeEnter,
+                                                        processToken,
+                                                        timestamp);
   }
 
   public async writeOnFlowNodeInstanceExit(correlationId: string,
@@ -47,11 +47,13 @@ export class MetricsApiService implements IMetricsService {
                                            processToken: ProcessToken,
                                            timestamp: Date): Promise<void> {
 
-    const logMessage: string = this._createFlowNodeInstanceLogMessage('FNI Exited', processToken);
-
-    await this
-      .loggingRepository
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeInstanceId, flowNodeId, LogLevel.info, logMessage, timestamp);
+    await this.metricsRepository.writeMetricForFlowNode(correlationId,
+                                                        processModelId,
+                                                        flowNodeInstanceId,
+                                                        flowNodeId,
+                                                        MetricMeasurementPoint.onFlowNodeExit,
+                                                        processToken,
+                                                        timestamp);
   }
 
   public async writeOnFlowNodeInstanceError(correlationId: string,
@@ -62,11 +64,14 @@ export class MetricsApiService implements IMetricsService {
                                             error: Error,
                                             timestamp: Date): Promise<void> {
 
-    const logMessage: string = this._createFlowNodeInstanceLogMessage('FNI Error', processToken, error);
-
-    await this
-      .loggingRepository
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeInstanceId, flowNodeId, LogLevel.info, logMessage, timestamp);
+    await this.metricsRepository.writeMetricForFlowNode(correlationId,
+                                                        processModelId,
+                                                        flowNodeInstanceId,
+                                                        flowNodeId,
+                                                        MetricMeasurementPoint.onFlowNodeError,
+                                                        processToken,
+                                                        timestamp,
+                                                        error);
   }
 
   public async writeOnFlowNodeInstanceSuspend(correlationId: string,
@@ -76,11 +81,13 @@ export class MetricsApiService implements IMetricsService {
                                               processToken: ProcessToken,
                                               timestamp: Date): Promise<void> {
 
-    const logMessage: string = this._createFlowNodeInstanceLogMessage('FNI Suspended', processToken);
-
-    await this
-      .loggingRepository
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeInstanceId, flowNodeId, LogLevel.info, logMessage, timestamp);
+    await this.metricsRepository.writeMetricForFlowNode(correlationId,
+                                                        processModelId,
+                                                        flowNodeInstanceId,
+                                                        flowNodeId,
+                                                        MetricMeasurementPoint.onFlowNodeSuspend,
+                                                        processToken,
+                                                        timestamp);
   }
 
   public async writeOnFlowNodeInstanceResume(correlationId: string,
@@ -90,22 +97,12 @@ export class MetricsApiService implements IMetricsService {
                                              processToken: ProcessToken,
                                              timestamp: Date): Promise<void> {
 
-    const logMessage: string = this._createFlowNodeInstanceLogMessage('FNI Resumed', processToken);
-
-    await this
-      .loggingRepository
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeInstanceId, flowNodeId, LogLevel.info, logMessage, timestamp);
-  }
-
-  private _createFlowNodeInstanceLogMessage(metricTypeMessage: string, processToken: ProcessToken, error?: Error): string {
-
-    const stringifiedProcessToken: string = JSON.stringify(processToken);
-    let message: string = `${metricTypeMessage};FlowNodeInstanceToken=${stringifiedProcessToken}`;
-
-    if (error) {
-      message += `;Error=${JSON.stringify(error)}`;
-    }
-
-    return message;
+    await this.metricsRepository.writeMetricForFlowNode(correlationId,
+                                                        processModelId,
+                                                        flowNodeInstanceId,
+                                                        flowNodeId,
+                                                        MetricMeasurementPoint.onFlowNodeResume,
+                                                        processToken,
+                                                        timestamp);
   }
 }

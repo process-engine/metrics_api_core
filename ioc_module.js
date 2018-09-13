@@ -6,7 +6,7 @@ function registerInContainer(container) {
 
   container
     .register('MetricsApiService', MetricsApiService)
-    .dependencies('LoggingRepository')
+    .dependencies('MetricsRepository')
     .singleton();
 }
 
