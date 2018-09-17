@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import {IMetricsApi, IMetricsRepository, MetricMeasurementPoint, ProcessToken} from '@process-engine/metrics_api_contracts';
 
 export class MetricsApiService implements IMetricsApi {
@@ -12,15 +14,15 @@ export class MetricsApiService implements IMetricsApi {
     return this._metricsRepository;
   }
 
-  public async writeOnProcessStarted(correlationId: string, processModelId: string, timestamp: Date): Promise<void> {
+  public async writeOnProcessStarted(correlationId: string, processModelId: string, timestamp: moment.Moment): Promise<void> {
     await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessStart, timestamp);
   }
 
-  public async writeOnProcessFinished(correlationId: string, processModelId: string, timestamp: Date): Promise<void> {
+  public async writeOnProcessFinished(correlationId: string, processModelId: string, timestamp: moment.Moment): Promise<void> {
     await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessFinish, timestamp);
   }
 
-  public async writeOnProcessError(correlationId: string, processModelId: string, error: Error, timestamp: Date): Promise<void> {
+  public async writeOnProcessError(correlationId: string, processModelId: string, error: Error, timestamp: moment.Moment): Promise<void> {
     await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessError, timestamp, error);
   }
 
@@ -29,7 +31,7 @@ export class MetricsApiService implements IMetricsApi {
                                             flowNodeInstanceId: string,
                                             flowNodeId: string,
                                             processToken: ProcessToken,
-                                            timestamp: Date): Promise<void> {
+                                            timestamp: moment.Moment): Promise<void> {
 
     await this.metricsRepository.writeMetricForFlowNode(correlationId,
                                                         processModelId,
@@ -45,7 +47,7 @@ export class MetricsApiService implements IMetricsApi {
                                            flowNodeInstanceId: string,
                                            flowNodeId: string,
                                            processToken: ProcessToken,
-                                           timestamp: Date): Promise<void> {
+                                           timestamp: moment.Moment): Promise<void> {
 
     await this.metricsRepository.writeMetricForFlowNode(correlationId,
                                                         processModelId,
@@ -62,7 +64,7 @@ export class MetricsApiService implements IMetricsApi {
                                             flowNodeId: string,
                                             processToken: ProcessToken,
                                             error: Error,
-                                            timestamp: Date): Promise<void> {
+                                            timestamp: moment.Moment): Promise<void> {
 
     await this.metricsRepository.writeMetricForFlowNode(correlationId,
                                                         processModelId,
@@ -79,7 +81,7 @@ export class MetricsApiService implements IMetricsApi {
                                               flowNodeInstanceId: string,
                                               flowNodeId: string,
                                               processToken: ProcessToken,
-                                              timestamp: Date): Promise<void> {
+                                              timestamp: moment.Moment): Promise<void> {
 
     await this.metricsRepository.writeMetricForFlowNode(correlationId,
                                                         processModelId,
@@ -95,7 +97,7 @@ export class MetricsApiService implements IMetricsApi {
                                              flowNodeInstanceId: string,
                                              flowNodeId: string,
                                              processToken: ProcessToken,
-                                             timestamp: Date): Promise<void> {
+                                             timestamp: moment.Moment): Promise<void> {
 
     await this.metricsRepository.writeMetricForFlowNode(correlationId,
                                                         processModelId,
