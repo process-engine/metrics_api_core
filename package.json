@@ -1,6 +1,6 @@
 {
   "name": "@process-engine/metrics_api_core",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Contains all the core components for the metrics api. ",
   "main": "dist/commonjs/index.js",
   "typings": "dist/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/process-engine/metrics_api_core#readme",
   "dependencies": {
-    "@process-engine/metrics_api_contracts": "feature~add_metrics_repository"
+    "@process-engine/metrics_api_contracts": "0.2.0"
   },
   "devDependencies": {
     "@essential-projects/tslint-config": "1.1.1",
