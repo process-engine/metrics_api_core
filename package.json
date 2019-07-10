@@ -9,9 +9,11 @@
     "url": "git+https://github.com/process-engine/metrics_api_core.git"
   },
   "author": "5Minds IT-Solutions GmbH & Co. KG",
-  "contributors": [
-    "Sebastian Meier <sebastian.meier@5minds.de>",
-    "Christian Werner <christian.werner@5minds.de>"
+  "maintainers": [
+    "Alexander Kasten <alexander.kasten@5minds.de>",
+    "Christian Werner <christian.werner@5minds.de>",
+    "René Föhring <rene.foehring@5minds.de>",
+    "Steffen Knaup <steffen.knaup@5minds.de>"
   ],
   "license": "MIT",
   "bugs": {
