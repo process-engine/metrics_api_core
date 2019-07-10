@@ -1,6 +1,6 @@
 {
   "name": "@process-engine/metrics_api_core",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Contains all the core components for the metrics api. ",
   "main": "dist/commonjs/index.js",
   "typings": "dist/index.d.ts",
@@ -9,9 +9,11 @@
     "url": "git+https://github.com/process-engine/metrics_api_core.git"
   },
   "author": "5Minds IT-Solutions GmbH & Co. KG",
-  "contributors": [
-    "Sebastian Meier <sebastian.meier@5minds.de>",
-    "Christian Werner <christian.werner@5minds.de>"
+  "maintainers": [
+    "Alexander Kasten <alexander.kasten@5minds.de>",
+    "Christian Werner <christian.werner@5minds.de>",
+    "René Föhring <rene.foehring@5minds.de>",
+    "Steffen Knaup <steffen.knaup@5minds.de>"
   ],
   "license": "MIT",
   "bugs": {
@@ -19,7 +21,7 @@
   },
   "homepage": "https://github.com/process-engine/metrics_api_core#readme",
   "dependencies": {
-    "@process-engine/metrics_api_contracts": "^1.0.0",
+    "@process-engine/metrics_api_contracts": "^2.0.0",
     "moment": "^2.24.0"
   },
   "devDependencies": {
