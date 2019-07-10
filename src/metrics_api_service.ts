@@ -1,86 +1,125 @@
 import * as moment from 'moment';
 
+import {IIdentity} from '@essential-projects/iam_contracts';
 import {
-  IMetricsApi, IMetricsRepository, MetricMeasurementPoint, ProcessToken,
+  IMetricsApi, IMetricsRepository, Metric, MetricMeasurementPoint,
 } from '@process-engine/metrics_api_contracts';
 
 export class MetricsApiService implements IMetricsApi {
 
-  private readonly metricsRepository: IMetricsRepository;
+  private metricsRepository: IMetricsRepository;
 
   constructor(metricsRepository: IMetricsRepository) {
     this.metricsRepository = metricsRepository;
   }
 
-  public async writeOnProcessStarted(correlationId: string, processModelId: string, timestamp: moment.Moment): Promise<void> {
-    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessStart, timestamp);
+  public async readMetricsForProcessModel(identity: IIdentity, processModelId: string): Promise<Array<Metric>> {
+
+    return this
+      .metricsRepository
+      .readMetricsForProcessModel(processModelId);
   }
 
-  public async writeOnProcessFinished(correlationId: string, processModelId: string, timestamp: moment.Moment): Promise<void> {
-    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessFinish, timestamp);
+  public async writeOnProcessStarted(
+    correlationId: string,
+    processInstanceId: string,
+    processModelId: string,
+    timestamp: moment.Moment,
+  ): Promise<void> {
+
+    await this
+      .metricsRepository
+      .writeMetricForProcessInstance(correlationId, processInstanceId, processModelId, MetricMeasurementPoint.onProcessStart, timestamp);
   }
 
-  public async writeOnProcessError(correlationId: string, processModelId: string, error: Error, timestamp: moment.Moment): Promise<void> {
-    await this.metricsRepository.writeMetricForProcessModel(correlationId, processModelId, MetricMeasurementPoint.onProcessError, timestamp, error);
+  public async writeOnProcessFinished(
+    correlationId: string,
+    processInstanceId: string,
+    processModelId: string,
+    timestamp: moment.Moment,
+  ): Promise<void> {
+
+    await this
+      .metricsRepository
+      .writeMetricForProcessInstance(correlationId, processInstanceId, processModelId, MetricMeasurementPoint.onProcessFinish, timestamp);
+  }
+
+  public async writeOnProcessError(
+    correlationId: string,
+    processInstanceId: string,
+    processModelId: string,
+    error: Error,
+    timestamp: moment.Moment,
+  ): Promise<void> {
+
+    await this
+      .metricsRepository
+      .writeMetricForProcessInstance(correlationId, processInstanceId, processModelId, MetricMeasurementPoint.onProcessError, timestamp, error);
   }
 
   public async writeOnFlowNodeInstanceEnter(
     correlationId: string,
+    processInstanceId: string,
     processModelId: string,
     flowNodeInstanceId: string,
     flowNodeId: string,
-    processToken: ProcessToken,
+    tokenPayload: any,
     timestamp: moment.Moment,
   ): Promise<void> {
 
-    await this.metricsRepository.writeMetricForFlowNode(
+    await this.metricsRepository.writeMetricForFlowNodeInstance(
       correlationId,
+      processInstanceId,
       processModelId,
       flowNodeInstanceId,
       flowNodeId,
       MetricMeasurementPoint.onFlowNodeEnter,
-      processToken,
+      tokenPayload,
       timestamp,
     );
   }
 
   public async writeOnFlowNodeInstanceExit(
     correlationId: string,
+    processInstanceId: string,
     processModelId: string,
     flowNodeInstanceId: string,
     flowNodeId: string,
-    processToken: ProcessToken,
+    tokenPayload: any,
     timestamp: moment.Moment,
   ): Promise<void> {
 
-    await this.metricsRepository.writeMetricForFlowNode(
+    await this.metricsRepository.writeMetricForFlowNodeInstance(
       correlationId,
+      processInstanceId,
       processModelId,
       flowNodeInstanceId,
       flowNodeId,
       MetricMeasurementPoint.onFlowNodeExit,
-      processToken,
+      tokenPayload,
       timestamp,
     );
   }
 
   public async writeOnFlowNodeInstanceError(
     correlationId: string,
+    processInstanceId: string,
     processModelId: string,
     flowNodeInstanceId: string,
     flowNodeId: string,
-    processToken: ProcessToken,
+    tokenPayload: any,
     error: Error,
     timestamp: moment.Moment,
   ): Promise<void> {
 
-    await this.metricsRepository.writeMetricForFlowNode(
+    await this.metricsRepository.writeMetricForFlowNodeInstance(
       correlationId,
+      processInstanceId,
       processModelId,
       flowNodeInstanceId,
       flowNodeId,
       MetricMeasurementPoint.onFlowNodeError,
-      processToken,
+      tokenPayload,
       timestamp,
       error,
     );
@@ -88,40 +127,44 @@ export class MetricsApiService implements IMetricsApi {
 
   public async writeOnFlowNodeInstanceSuspend(
     correlationId: string,
+    processInstanceId: string,
     processModelId: string,
     flowNodeInstanceId: string,
     flowNodeId: string,
-    processToken: ProcessToken,
+    tokenPayload: any,
     timestamp: moment.Moment,
   ): Promise<void> {
 
-    await this.metricsRepository.writeMetricForFlowNode(
+    await this.metricsRepository.writeMetricForFlowNodeInstance(
       correlationId,
+      processInstanceId,
       processModelId,
       flowNodeInstanceId,
       flowNodeId,
       MetricMeasurementPoint.onFlowNodeSuspend,
-      processToken,
+      tokenPayload,
       timestamp,
     );
   }
 
   public async writeOnFlowNodeInstanceResume(
     correlationId: string,
+    processInstanceId: string,
     processModelId: string,
     flowNodeInstanceId: string,
     flowNodeId: string,
-    processToken: ProcessToken,
+    tokenPayload: any,
     timestamp: moment.Moment,
   ): Promise<void> {
 
-    await this.metricsRepository.writeMetricForFlowNode(
+    await this.metricsRepository.writeMetricForFlowNodeInstance(
       correlationId,
+      processInstanceId,
       processModelId,
       flowNodeInstanceId,
       flowNodeId,
       MetricMeasurementPoint.onFlowNodeResume,
-      processToken,
+      tokenPayload,
       timestamp,
     );
   }
